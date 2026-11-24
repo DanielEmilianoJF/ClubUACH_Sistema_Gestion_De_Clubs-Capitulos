@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h1 class="titulo">{{ 'Nuevo evento' if nuevo else 'Editar evento' }}</h1>
+
+<form class="card card-body" method="post">
+  <div class="row g-3">
+    <div class="col-md-8">
+      <label class="form-label">Título *</label>
+      <input class="form-control" name="titulo" required value="{{ e.titulo or '' }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Tipo *</label>
+      <select class="form-select" name="id_tipo_evento">
+        {% for t in tipos %}
+          <option value="{{ t.id_tipo_evento }}" {{ 'selected' if e.id_tipo_evento|string == t.id_tipo_evento|string }}>{{ t.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-12">
+      <label class="form-label">Descripción</label>
+      <textarea class="form-control" name="descripcion" rows="2">{{ e.descripcion or '' }}</textarea>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Fecha *</label>
+      <input class="form-control" type="date" name="fecha" required value="{{ e.fecha|iso }}">
+    </div>
+    <div class="col-6 col-md-2">
+      <label class="form-label">Inicio *</label>
+      <input class="form-control" type="time" name="hora_inicio" required value="{{ e.hora_inicio or '' }}">
+    </div>
+    <div class="col-6 col-md-2">
+      <label class="form-label">Fin *</label>
+      <input class="form-control" type="time" name="hora_fin" required value="{{ e.hora_fin or '' }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Cupo *</label>
+      <input class="form-control" type="number" name="cupo" min="1" required value="{{ e.cupo or 30 }}">
+    </div>
+    <div class="col-md-8">
+      <label class="form-label">Lugar *</label>
+      <input class="form-control" name="lugar" required value="{{ e.lugar or '' }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Responsable *</label>
+      <select class="form-select" name="id_responsable">
+        {% for m in responsables %}
+          <option value="{{ m.id_miembro }}" {{ 'selected' if e.id_responsable|string == m.id_miembro|string }}>{{ m.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="mt-4">
+    <button class="btn btn-club">Guardar</button>
+    <a class="btn btn-link" href="{{ url_for('eventos') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h1 class="titulo">{{ 'Nuevo miembro' if nuevo else 'Editar miembro' }}</h1>
+
+<form class="card card-body" method="post">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Nombre(s) *</label>
+      <input class="form-control" name="nombre" required value="{{ m.nombre or '' }}">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Apellidos *</label>
+      <input class="form-control" name="apellidos" required value="{{ m.apellidos or '' }}">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Correo *</label>
+      <input class="form-control" type="email" name="correo" required value="{{ m.correo or '' }}">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Teléfono</label>
+      <input class="form-control" name="telefono" value="{{ m.telefono or '' }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Matrícula *</label>
+      <input class="form-control" name="matricula" required pattern="[0-9]{6}" title="6 números" value="{{ m.matricula or '' }}">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Carrera *</label>
+      <input class="form-control" name="carrera" required value="{{ m.carrera or '' }}">
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Semestre *</label>
+      <input class="form-control" type="number" name="semestre" min="1" max="12" required value="{{ m.semestre or '' }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Rol *</label>
+      <select class="form-select" name="id_rol">
+        {% for r in roles %}
+          <option value="{{ r.id_rol }}" {{ 'selected' if m.id_rol|string == r.id_rol|string }}>{{ r.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Fecha de ingreso</label>
+      <input class="form-control" type="date" name="fecha_ingreso" value="{{ (m.fecha_ingreso or hoy)|iso }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Estatus</label>
+      <select class="form-select" name="estatus">
+        <option value="ACTIVO">Activo</option>
+        <option value="INACTIVO" {{ 'selected' if m.estatus == 'INACTIVO' }}>Inactivo</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">{{ 'Contraseña *' if nuevo else 'Nueva contraseña (déjala vacía para no cambiarla)' }}</label>
+      <input class="form-control" type="password" name="password" minlength="8" {{ 'required' if nuevo }}>
+    </div>
+  </div>
+  <div class="mt-4">
+    <button class="btn btn-club">Guardar</button>
+    <a class="btn btn-link" href="{{ url_for('miembros') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

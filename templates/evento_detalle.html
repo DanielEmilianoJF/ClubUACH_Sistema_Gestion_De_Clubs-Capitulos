@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge_asistencia %}
+{% block contenido %}
+<a href="{{ url_for('eventos') }}">← Eventos</a>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 my-3">
+  <h1 class="titulo mb-0">{{ e.titulo }}</h1>
+  {% if usuario.es_admin %}
+  <div class="d-flex gap-2">
+    <a class="btn btn-light border" href="{{ url_for('evento_editar', id_evento=e.id_evento) }}">Editar</a>
+    <form method="post" action="{{ url_for('evento_eliminar', id_evento=e.id_evento) }}"
+          data-confirmar="¿Eliminar el evento? También se borra su asistencia.">
+      <button class="btn btn-outline-danger">Eliminar</button>
+    </form>
+  </div>
+  {% endif %}
+</div>
+
+<div class="row g-3">
+  <!-- Columna izquierda: datos del evento -->
+  <div class="col-lg-4">
+    <div class="card mb-3">
+      <div class="card-body">
+        <span class="badge text-bg-secondary mb-2">{{ e.tipo }}</span>
+        <p>{{ e.descripcion or '' }}</p>
+        <p class="small mb-0">
+          <i class="bi bi-calendar3"></i> {{ e.fecha|fecha }}<br>
+          <i class="bi bi-clock"></i> {{ e.hora_inicio }} a {{ e.hora_fin }}<br>
+          <i class="bi bi-geo-alt"></i> {{ e.lugar }}<br>
+          <i class="bi bi-person"></i> Responsable: {{ e.responsable }}<br>
+          <i class="bi bi-people"></i> {{ e.inscritos }} de {{ e.cupo }} lugares ocupados
+        </p>
+      </div>
+    </div>
+
+    {% if mi_registro %}
+      <div class="alert alert-info">Tu estatus: {{ badge_asistencia(mi_registro.estatus) }}</div>
+    {% elif e.fecha >= hoy %}
+      <form method="post" action="{{ url_for('asistencia_registrar', id_evento=e.id_evento) }}">
+        <button class="btn btn-club w-100">Inscribirme</button>
+      </form>
+    {% endif %}
+
+    {% if usuario.es_admin %}
+    <form class="card card-body mt-3" method="post" action="{{ url_for('asistencia_registrar', id_evento=e.id_evento) }}">
+      <h3 class="h6">Agregar miembro</h3>
+      <select class="form-select mb-2" name="id_miembro" required>
+        <option value="">Selecciona...</option>
+        {% for m in disponibles %}<option value="{{ m.id_miembro }}">{{ m.miembro }}</option>{% endfor %}
+      </select>
+      <select class="form-select mb-2" name="estatus">
+        <option value="REGISTRADO">Registrado</option>
+        <option value="ASISTIO">Asistió</option>
+      </select>
+      <button class="btn btn-light border">Agregar</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <!-- Columna derecha: pase de lista (solo mesa directiva) -->
+  {% if usuario.es_admin %}
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        Pase de lista ({{ asistentes|length }})
+        <form method="post" action="{{ url_for('constancias_emitir', id_evento=e.id_evento) }}">
+          <button class="btn btn-sm btn-club"><i class="bi bi-award"></i> Emitir constancias</button>
+        </form>
+      </div>
+      <form method="post" action="{{ url_for('pase_de_lista', id_evento=e.id_evento) }}">
+        <div class="table-responsive">
+          <table class="table">
+            <thead><tr><th>Miembro</th><th>Asistencia</th><th>Constancia</th></tr></thead>
+            <tbody>
+            {% for a in asistentes %}
+              <tr>
+                <td>{{ a.miembro }}</td>
+                <td>
+                  {% if a.folio %}
+                    {{ badge_asistencia(a.estatus) }}
+                  {% else %}
+                    <select class="form-select form-select-sm" name="estatus_{{ a.id_asistencia }}">
+                      <option value="REGISTRADO" {{ 'selected' if a.estatus == 'REGISTRADO' }}>Registrado</option>
+                      <option value="ASISTIO" {{ 'selected' if a.estatus == 'ASISTIO' }}>Asistió</option>
+                      <option value="FALTO" {{ 'selected' if a.estatus == 'FALTO' }}>Faltó</option>
+                    </select>
+                  {% endif %}
+                </td>
+                <td>{% if a.folio %}<a href="{{ url_for('constancia_ver', folio=a.folio) }}">{{ a.folio }}</a>{% else %}—{% endif %}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if asistentes %}
+          <div class="card-body text-end"><button class="btn btn-club">Guardar pase de lista</button></div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

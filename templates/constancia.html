@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block contenido %}
+<div class="d-flex justify-content-between mb-3 d-print-none">
+  <a href="javascript:history.back()">← Regresar</a>
+  <button class="btn btn-club" onclick="window.print()"><i class="bi bi-printer"></i> Imprimir / PDF</button>
+</div>
+
+<div class="constancia">
+  <div class="folio">Folio: {{ c.folio }}</div>
+  <div class="constancia-logos">
+    <img src="{{ url_for('static', filename='img/logo-uach.png') }}" alt="UACH">
+    <i class="bi bi-award-fill sello"></i>
+    <img src="{{ url_for('static', filename='img/logo-facultad-ingenieria.png') }}" alt="Facultad de Ingeniería">
+  </div>
+  <p class="small mb-1">UNIVERSIDAD AUTÓNOMA DE CHIHUAHUA · FACULTAD DE INGENIERÍA</p>
+  <p class="fw-bold color-club mb-4">ClubUACH · Capítulo Estudiantil</p>
+  <h2 class="mb-4">CONSTANCIA</h2>
+  <p>Se otorga la presente a</p>
+  <div class="nombre mb-2">{{ c.miembro }}</div>
+  <p class="text-muted small">Matrícula {{ c.matricula }} · {{ c.carrera }}</p>
+  <p class="mt-4 mb-1">por su asistencia al evento ({{ c.tipo_evento|lower }})</p>
+  <p class="fs-4 fw-semibold color-club">"{{ c.evento }}"</p>
+  <p>realizado el {{ c.fecha_evento|fecha }} en {{ c.lugar }}.</p>
+  <div class="row mt-5">
+    <div class="col-6"><div class="firma">Presidencia</div></div>
+    <div class="col-6"><div class="firma">Secretaría</div></div>
+  </div>
+  <p class="small text-muted mt-4 mb-0">Emitida el {{ c.fecha_emision|fecha }}. Verifica este folio en la página de inicio de ClubUACH.</p>
+</div>
+{% endblock %}

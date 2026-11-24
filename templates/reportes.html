@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge_proyecto %}
+{% block contenido %}
+<h1 class="titulo">Reportes</h1>
+
+<!-- 1. Asistencia por miembro -->
+<div class="card mb-4">
+  <div class="card-header">1. Asistencia por miembro</div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead><tr><th>Miembro</th><th>Rol</th><th>Asistencias</th><th>Faltas</th><th>% asistencia</th></tr></thead>
+      <tbody>
+      {% for r in asistencia %}
+        <tr><td>{{ r.miembro }}</td><td>{{ r.rol }}</td><td>{{ r.asistencias }}</td><td>{{ r.faltas }}</td><td>{{ r.porcentaje_asistencia }}%</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 2. Eventos por semestre (tabla + gráfica) -->
+<div class="row g-3 mb-4">
+  <div class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-header">2. Eventos por semestre</div>
+      <table class="table">
+        <thead><tr><th>Semestre</th><th>Tipo</th><th>Eventos</th><th>Asistentes</th></tr></thead>
+        <tbody>
+        {% for r in eventos %}
+          <tr><td>{{ r.semestre }}</td><td>{{ r.tipo }}</td><td>{{ r.total_eventos }}</td><td>{{ r.total_asistentes }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-header">Asistentes por semestre</div>
+      <div class="card-body"><div class="grafica"><canvas id="grafica"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Pagos pendientes -->
+<div class="card mb-4">
+  <div class="card-header">3. Cuota semestral pendiente ({{ pendientes|length }})</div>
+  <table class="table">
+    <thead><tr><th>Miembro</th><th>Correo</th><th>Teléfono</th><th>Semestre</th></tr></thead>
+    <tbody>
+    {% for r in pendientes %}
+      <tr><td>{{ r.miembro }}</td><td>{{ r.correo }}</td><td>{{ r.telefono or '—' }}</td><td>{{ r.semestre }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- 4. Participación por proyecto -->
+<div class="card">
+  <div class="card-header">4. Participación por proyecto</div>
+  <table class="table">
+    <thead><tr><th>Proyecto</th><th>Estado</th><th>Líder</th><th>Participantes</th></tr></thead>
+    <tbody>
+    {% for r in proyectos %}
+      <tr><td>{{ r.titulo }}</td><td>{{ badge_proyecto(r.estado) }}</td><td>{{ r.lider }}</td><td>{{ r.participantes }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Gráfica de barras con Chart.js. Los datos vienen de Flask (por_semestre). -->
+<script src="{{ url_for('static', filename='vendor/chartjs/chart.umd.min.js') }}"></script>
+<script>
+  const datos = {{ por_semestre|tojson }};
+  new Chart(document.getElementById('grafica'), {
+    type: 'bar',
+    data: {
+      labels: datos.map(d => d.semestre),
+      datasets: [{ label: 'Asistentes', data: datos.map(d => d.asistentes), backgroundColor: '#1f3b64', borderRadius: 6 }]
+    },
+    options: { maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+</script>
+{% endblock %}

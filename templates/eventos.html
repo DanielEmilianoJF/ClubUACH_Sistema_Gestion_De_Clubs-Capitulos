@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block contenido %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="titulo mb-0">Eventos</h1>
+  {% if usuario.es_admin %}
+    <a class="btn btn-club" href="{{ url_for('evento_nuevo') }}"><i class="bi bi-plus-lg"></i> Nuevo evento</a>
+  {% endif %}
+</div>
+
+<!-- Filtro por semestre: al cambiarlo se recarga la página -->
+<form class="mb-3" style="max-width: 260px">
+  <select class="form-select" name="semestre" onchange="this.form.submit()">
+    <option value="">Todos los semestres</option>
+    {% for s in semestres %}
+      <option {{ 'selected' if semestre == s.s }}>{{ s.s }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+<div class="row g-3">
+  {% for e in eventos %}
+  <div class="col-md-6 col-xl-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <span class="badge text-bg-secondary">{{ e.tipo }}</span>
+        {% if e.fecha >= hoy %}<span class="badge text-bg-primary">Próximo</span>{% endif %}
+        <h5 class="mt-2">
+          <a class="text-decoration-none text-dark stretched-link" href="{{ url_for('evento_detalle', id_evento=e.id_evento) }}">{{ e.titulo }}</a>
+        </h5>
+        <div class="small text-muted">
+          <i class="bi bi-calendar3"></i> {{ e.fecha|fecha }} · {{ e.hora_inicio }}–{{ e.hora_fin }}<br>
+          <i class="bi bi-geo-alt"></i> {{ e.lugar }}<br>
+          <i class="bi bi-people"></i> {{ e.inscritos }}/{{ e.cupo }} inscritos
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

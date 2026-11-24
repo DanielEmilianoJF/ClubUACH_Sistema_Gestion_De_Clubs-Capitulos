@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block contenido %}
+<div class="mx-auto" style="max-width: 520px">
+  <div class="text-center mb-4">
+    <div class="logos-institucion mb-3">
+      <img src="{{ url_for('static', filename='img/logo-uach.png') }}" alt="UACH">
+      <img src="{{ url_for('static', filename='img/logo-facultad-ingenieria.png') }}" alt="Facultad de Ingeniería">
+    </div>
+    <h1 class="h3 fw-bold color-club">Verificar constancia</h1>
+  </div>
+
+  <form class="input-group mb-3">
+    <input class="form-control" name="folio" value="{{ folio }}" placeholder="CUACH-2026-00001" required>
+    <button class="btn btn-club">Verificar</button>
+  </form>
+
+  {% if folio and c %}
+    <div class="alert alert-success">
+      <strong>Constancia válida.</strong> El folio {{ c.folio }} pertenece a {{ c.miembro }},
+      por asistir a "{{ c.evento }}" el {{ c.fecha_evento|fecha }}.
+    </div>
+  {% elif folio %}
+    <div class="alert alert-danger">No existe ninguna constancia con el folio {{ folio }}.</div>
+  {% endif %}
+
+  <p class="text-center"><a href="{{ url_for('login') }}">Volver al inicio</a></p>
+</div>
+{% endblock %}

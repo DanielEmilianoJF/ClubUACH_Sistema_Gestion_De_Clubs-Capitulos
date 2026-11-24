@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block contenido %}
+<div class="login-fondo">
+  <div class="card login-tarjeta">
+    <div class="text-center mb-3">
+      <div class="logos-institucion mb-3">
+        <img src="{{ url_for('static', filename='img/logo-uach.png') }}" alt="UACH">
+        <img src="{{ url_for('static', filename='img/logo-facultad-ingenieria.png') }}" alt="Facultad de Ingeniería">
+      </div>
+      <h1 class="h3 fw-bold color-club mb-0">ClubUACH</h1>
+      <p class="text-muted small mb-0">Sistema de Gestión de Capítulo Estudiantil</p>
+    </div>
+
+    <form method="post">
+      <label class="form-label">Correo</label>
+      <input class="form-control mb-3" type="email" name="correo" required>
+      <label class="form-label">Contraseña</label>
+      <input class="form-control mb-3" type="password" name="password" required>
+      <button class="btn btn-club w-100">Entrar</button>
+    </form>
+
+    <hr>
+    <p class="small text-muted mb-0">
+      Cuentas de prueba (contraseña <code>clubuach123</code>):<br>
+      <code>admin@clubuach.mx</code> · <code>miembro@clubuach.mx</code>
+    </p>
+
+    <hr>
+    <p class="small fw-semibold mb-2"><i class="bi bi-patch-check"></i> Verificar una constancia</p>
+    <form class="input-group input-group-sm" action="{{ url_for('verificar') }}">
+      <input class="form-control" name="folio" placeholder="CUACH-2026-00001" required>
+      <button class="btn btn-light border">Verificar</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

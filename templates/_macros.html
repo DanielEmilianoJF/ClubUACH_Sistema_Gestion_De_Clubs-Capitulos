@@ -1,0 +1,15 @@
+{# Etiquetas de colores que se usan en varias páginas #}
+{% macro badge_asistencia(estatus) -%}
+  {% set colores = {'ASISTIO': 'success', 'FALTO': 'danger', 'REGISTRADO': 'secondary'} %}
+  {% set textos = {'ASISTIO': 'Asistió', 'FALTO': 'Faltó', 'REGISTRADO': 'Registrado'} %}
+  <span class="badge estatus text-bg-{{ colores.get(estatus, 'light') }}">{{ textos.get(estatus, estatus) }}</span>
+{%- endmacro %}
+
+{% macro badge_proyecto(estado) -%}
+  {% set colores = {'EN_CURSO': 'primary', 'PLANEADO': 'info', 'TERMINADO': 'success', 'CANCELADO': 'secondary'} %}
+  <span class="badge estatus text-bg-{{ colores.get(estado, 'light') }}">{{ estado.replace('_', ' ').capitalize() }}</span>
+{%- endmacro %}
+
+{% macro badge_miembro(estatus) -%}
+  <span class="badge estatus text-bg-{{ 'success' if estatus == 'ACTIVO' else 'secondary' }}">{{ estatus.capitalize() }}</span>
+{%- endmacro %}

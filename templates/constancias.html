@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h1 class="titulo">Constancias <small class="text-muted fs-6">({{ constancias|length }})</small></h1>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead><tr><th>Folio</th><th>Miembro</th><th>Evento</th><th>Emitida</th></tr></thead>
+      <tbody>
+      {% for c in constancias %}
+        <tr>
+          <td class="font-monospace"><a href="{{ url_for('constancia_ver', folio=c.folio) }}">{{ c.folio }}</a></td>
+          <td>{{ c.miembro }}</td>
+          <td>{{ c.evento }}</td>
+          <td class="text-nowrap">{{ c.fecha_emision|fecha }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

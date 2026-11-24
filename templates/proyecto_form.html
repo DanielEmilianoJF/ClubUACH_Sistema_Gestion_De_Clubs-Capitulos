@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h1 class="titulo">{{ 'Nuevo proyecto' if nuevo else 'Editar proyecto' }}</h1>
+
+<form class="card card-body" method="post">
+  <div class="row g-3">
+    <div class="col-md-8">
+      <label class="form-label">Título *</label>
+      <input class="form-control" name="titulo" required value="{{ p.titulo or '' }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Estado</label>
+      <select class="form-select" name="estado">
+        {% for s in estados %}
+          <option value="{{ s }}" {{ 'selected' if p.estado == s }}>{{ s.replace('_', ' ').capitalize() }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-12">
+      <label class="form-label">Descripción</label>
+      <textarea class="form-control" name="descripcion" rows="2">{{ p.descripcion or '' }}</textarea>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Fecha de inicio *</label>
+      <input class="form-control" type="date" name="fecha_inicio" required value="{{ p.fecha_inicio|iso }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Fecha de fin</label>
+      <input class="form-control" type="date" name="fecha_fin" value="{{ p.fecha_fin|iso }}">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Líder *</label>
+      <select class="form-select" name="id_lider">
+        {% for m in lideres %}
+          <option value="{{ m.id_miembro }}" {{ 'selected' if p.id_lider|string == m.id_miembro|string }}>{{ m.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="mt-4">
+    <button class="btn btn-club">Guardar</button>
+    <a class="btn btn-link" href="{{ url_for('proyectos') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

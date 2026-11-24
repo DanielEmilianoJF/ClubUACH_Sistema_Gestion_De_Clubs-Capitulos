@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h1 class="titulo">Panel de la mesa directiva <small class="text-muted fs-6">· semestre {{ datos.semestre }}</small></h1>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3"><div class="card tarjeta-dato">
+    <i class="bi bi-people icono azul"></i><div class="numero">{{ datos.miembros }}</div><div>Miembros activos</div></div></div>
+  <div class="col-6 col-md-3"><div class="card tarjeta-dato">
+    <i class="bi bi-calendar-event icono verde"></i><div class="numero">{{ datos.eventos }}</div><div>Eventos del semestre</div></div></div>
+  <div class="col-6 col-md-3"><div class="card tarjeta-dato">
+    <i class="bi bi-award icono dorado"></i><div class="numero">{{ datos.constancias }}</div><div>Constancias emitidas</div></div></div>
+  <div class="col-6 col-md-3"><div class="card tarjeta-dato">
+    <i class="bi bi-exclamation-circle icono rojo"></i><div class="numero">{{ datos.pendientes }}</div><div>Cuotas pendientes</div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-header">Próximos eventos</div>
+  <ul class="list-group list-group-flush">
+    {% for e in proximos %}
+      <a class="list-group-item list-group-item-action" href="{{ url_for('evento_detalle', id_evento=e.id_evento) }}">
+        <strong>{{ e.titulo }}</strong><br>
+        <small class="text-muted">{{ e.fecha|fecha }} · {{ e.hora_inicio }} · {{ e.lugar }} · {{ e.inscritos }}/{{ e.cupo }} inscritos</small>
+      </a>
+    {% else %}
+      <li class="list-group-item text-muted">No hay eventos próximos.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

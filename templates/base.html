@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ClubUACH</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{% if usuario %}
+<!-- Barra de menú: cambia según el rol del usuario -->
+<nav class="navbar navbar-expand-xl bg-white border-bottom d-print-none">
+  <div class="container">
+    <a class="navbar-brand marca" href="{{ url_for('inicio') }}">Club<span>UACH</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav me-auto">
+        {% if usuario.es_admin %}
+          {% set opciones = [('/', 'Inicio', 'speedometer2'), ('/miembros', 'Miembros', 'person-badge'),
+                             ('/eventos', 'Eventos', 'calendar-event'), ('/proyectos', 'Proyectos', 'kanban'),
+                             ('/pagos', 'Pagos', 'cash-coin'), ('/constancias', 'Constancias', 'award'),
+                             ('/reportes', 'Reportes', 'bar-chart-line')] %}
+        {% else %}
+          {% set opciones = [('/mi-perfil', 'Mi perfil', 'person-circle'), ('/eventos', 'Eventos', 'calendar-event'),
+                             ('/proyectos', 'Proyectos', 'kanban')] %}
+        {% endif %}
+        {% for ruta, texto, icono in opciones %}
+          {% set activo = request.path == ruta or (ruta != '/' and request.path.startswith(ruta)) %}
+          <li class="nav-item">
+            <a class="nav-link {{ 'active' if activo }}" href="{{ ruta }}"><i class="bi bi-{{ icono }}"></i> {{ texto }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      <span class="navbar-text small me-3">{{ usuario.nombre.split()[0] }} · {{ usuario.rol }}</span>
+      <a class="btn btn-sm btn-light" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right"></i> Salir</a>
+    </div>
+  </div>
+</nav>
+{% endif %}
+
+<main class="container py-4">
+  <!-- Mensajes de "Guardado", "Error", etc. -->
+  {% for categoria, mensaje in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ categoria }} d-print-none">{{ mensaje }}</div>
+  {% endfor %}
+
+  {% block contenido %}{% endblock %}
+</main>
+
+{% if usuario %}
+<footer class="text-center text-muted small py-4 d-print-none">
+  <div class="logos-institucion logos-pie mb-2">
+    <img src="{{ url_for('static', filename='img/logo-uach.png') }}" alt="UACH">
+    <img src="{{ url_for('static', filename='img/logo-facultad-ingenieria.png') }}" alt="Facultad de Ingeniería">
+  </div>
+  ClubUACH · Facultad de Ingeniería UACH
+</footer>
+{% endif %}
+
+<script src="{{ url_for('static', filename='vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
+<script>
+  // Antes de eliminar algo, pide confirmación
+  document.querySelectorAll('form[data-confirmar]').forEach(function (formulario) {
+    formulario.addEventListener('submit', function (evento) {
+      if (!confirm(formulario.dataset.confirmar)) evento.preventDefault();
+    });
+  });
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

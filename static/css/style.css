@@ -1,0 +1,138 @@
+/* Estilos de ClubUACH: diseño minimalista sobre Bootstrap */
+
+/* Variables: se definen una vez y se usan en todo el archivo */
+:root {
+  --club: #1f3b64;        /* azul principal (más suave que el marino) */
+  --club-hover: #2c5089;
+  --oro: #c9971c;         /* acento dorado */
+  --fondo: #f6f7fb;       /* gris muy claro para el fondo */
+  --texto-suave: #6b7280;
+  --borde: #e8eaf0;
+  --radio: 14px;          /* qué tan redondeadas son las esquinas */
+}
+
+body {
+  background: var(--fondo);
+  color: #1f2937;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.color-club { color: var(--club); }
+.text-muted { color: var(--texto-suave) !important; }
+
+/* Botones */
+.btn { border-radius: 10px; }
+.btn-club { background: var(--club); color: #fff; border: 0; }
+.btn-club:hover, .btn-club:focus { background: var(--club-hover); color: #fff; }
+.btn-outline-primary { border-color: var(--borde); color: var(--club); }
+.btn-outline-primary:hover { background: var(--club); border-color: var(--club); }
+
+/* Campos de formulario */
+.form-control, .form-select { border-radius: 10px; border-color: var(--borde); }
+.form-control:focus, .form-select:focus { border-color: var(--club-hover); box-shadow: 0 0 0 3px rgba(44, 80, 137, .12); }
+.form-label { font-size: .85rem; color: var(--texto-suave); margin-bottom: .25rem; }
+
+/* Barra de menú (blanca y ligera) */
+.navbar { padding-top: .75rem; padding-bottom: .75rem; }
+.marca { font-weight: 700; color: var(--club) !important; letter-spacing: -.02em; }
+.marca span { color: var(--oro); }
+.navbar .nav-link { color: var(--texto-suave); border-radius: 10px; padding: .4rem .75rem !important; white-space: nowrap; }
+.navbar .nav-link:hover { color: var(--club); }
+.navbar .nav-link.active { color: var(--club); background: #eef2f9; font-weight: 600; }
+.navbar-text { white-space: nowrap; color: var(--texto-suave); }
+
+/* Títulos y tarjetas */
+.titulo { color: #111827; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.25rem; }
+
+.card { border: 1px solid var(--borde); border-radius: var(--radio); box-shadow: none; overflow: hidden; }
+.card-header { background: #fff; border-bottom: 1px solid var(--borde); font-weight: 600; padding: .9rem 1.1rem; }
+.card-body { padding: 1.1rem; }
+h3.h6 { font-weight: 600; margin-bottom: 1rem; }
+
+/* Tablas: sin líneas pesadas */
+.table { margin-bottom: 0; }
+.table > :not(caption) > * > * { padding: .7rem 1.1rem; border-color: #f0f1f5; vertical-align: middle; }
+.table thead th { font-size: .78rem; font-weight: 600; color: var(--texto-suave); background: #fafbfd; }
+.list-group-item { border-color: #f0f1f5; padding: .8rem 1.1rem; }
+
+/* Etiquetas (badges) con colores pastel */
+.badge { font-weight: 600; border-radius: 999px; padding: .35em .7em; }
+.badge.text-bg-success   { background: #e6f6ec !important; color: #18794e !important; }
+.badge.text-bg-danger    { background: #fdecec !important; color: #c0392b !important; }
+.badge.text-bg-secondary { background: #f0f1f5 !important; color: #4b5563 !important; }
+.badge.text-bg-info      { background: #e8f4fd !important; color: #1d6fa5 !important; }
+.badge.text-bg-primary   { background: #eef2f9 !important; color: var(--club) !important; }
+
+.alert { border-radius: var(--radio); border: 0; }
+
+/* Pantalla de inicio de sesión */
+.login-fondo {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--fondo);
+}
+.login-tarjeta { width: 100%; max-width: 400px; padding: 2rem; box-shadow: 0 10px 30px rgba(31, 59, 100, .08); }
+
+/* Tarjetas con números del panel */
+.tarjeta-dato { padding: 1.1rem; height: 100%; color: var(--texto-suave); font-size: .85rem; }
+.tarjeta-dato .numero { font-size: 1.9rem; font-weight: 700; color: #111827; line-height: 1.2; }
+.tarjeta-dato .icono {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: 12px; font-size: 1.1rem; margin-bottom: .6rem;
+}
+.icono.azul   { background: #eef2f9; color: var(--club); }
+.icono.verde  { background: #e6f6ec; color: #18794e; }
+.icono.dorado { background: #fbf4e2; color: var(--oro); }
+.icono.rojo   { background: #fdecec; color: #c0392b; }
+
+/* Gráfica */
+.grafica { position: relative; height: 260px; }
+
+/* Logos de la UACH y la Facultad */
+.logos-institucion { display: flex; justify-content: center; align-items: center; gap: 1.25rem; }
+.logos-institucion img { height: 76px; width: auto; }
+.logos-pie img { height: 40px; opacity: .85; }
+
+/* Constancia */
+.constancia {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-top: 6px solid var(--club);
+  border-radius: var(--radio);
+  padding: 2.5rem 2rem;
+  max-width: 850px;
+  margin: 0 auto;
+  text-align: center;
+}
+.constancia .folio  { text-align: right; font-family: monospace; color: var(--texto-suave); }
+.constancia .sello  { color: var(--oro); font-size: 3rem; }
+.constancia h2      { letter-spacing: .3em; color: var(--club); font-weight: 600; }
+.constancia .nombre { font-family: Georgia, serif; font-size: 2rem; border-bottom: 2px solid var(--oro); display: inline-block; padding: 0 1.5rem; }
+.constancia-logos { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
+.constancia-logos img { height: 80px; width: auto; }
+.firma { border-top: 1px solid #9ca3af; max-width: 220px; margin: 0 auto; padding-top: .25rem; font-size: .9rem; color: var(--texto-suave); }
+
+/* Celular (pantallas angostas) */
+@media (max-width: 576px) {
+  .titulo { font-size: 1.3rem; }
+  .login-tarjeta { padding: 1.5rem; }
+  .logos-institucion img { height: 60px; }
+  .constancia { padding: 1.5rem 1rem; }
+  .constancia .nombre { font-size: 1.4rem; padding: 0 .5rem; }
+  .constancia h2 { font-size: 1.4rem; letter-spacing: .12em; }
+  .constancia-logos img { height: 50px; }
+}
+
+/* Al imprimir: solo la constancia */
+@media print {
+  nav, footer, .no-imprimir, #mensaje { display: none !important; }
+  body { background: #fff; }
+}
+
+/* Detalles finales */
+.btn { white-space: nowrap; }
+hr { border-color: var(--borde); opacity: 1; }
+code { color: var(--club); background: #eef2f9; padding: .1em .35em; border-radius: 6px; }

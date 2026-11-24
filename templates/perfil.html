@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge_asistencia, badge_proyecto, badge_miembro %}
+{% block contenido %}
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+  <div>
+    <h1 class="titulo mb-1">{{ miembro.nombre }} {{ miembro.apellidos }}</h1>
+    <p class="text-muted mb-0">{{ miembro.rol }} · {{ miembro.carrera }} · {{ miembro.semestre }}° semestre {{ badge_miembro(miembro.estatus) }}</p>
+  </div>
+  {% if not es_mi_perfil %}
+  <div class="d-flex gap-2">
+    <a class="btn btn-club" href="{{ url_for('miembro_editar', id_miembro=miembro.id_miembro) }}">Editar</a>
+    <form method="post" action="{{ url_for('miembro_estatus', id_miembro=miembro.id_miembro) }}">
+      <button class="btn btn-light border">{{ 'Dar de baja' if miembro.estatus == 'ACTIVO' else 'Reactivar' }}</button>
+    </form>
+  </div>
+  {% endif %}
+</div>
+
+{% if debe_cuota %}
+<div class="alert alert-warning">Tiene pendiente la cuota semestral.</div>
+{% endif %}
+
+<div class="row g-3 mb-3">
+  <div class="col-6 col-md-3"><div class="card tarjeta-dato">
+    <i class="bi bi-calendar-check icono verde"></i><div class="numero">{{ asistencia.asistencias }}</div><div>Eventos asistidos</div></div></div>
+  <div class="col-6 col-md-3"><div class="card tarjeta-dato">
+    <i class="bi bi-graph-up icono azul"></i><div class="numero">{{ asistencia.porcentaje_asistencia }}%</div><div>Asistencia</div></div></div>
+  <div class="col-6 col-md-3"><div class="card tarjeta-dato">
+    <i class="bi bi-award icono dorado"></i><div class="numero">{{ eventos|selectattr('folio')|list|length }}</div><div>Constancias</div></div></div>
+  <div class="col-6 col-md-3"><div class="card tarjeta-dato">
+    <i class="bi bi-kanban icono azul"></i><div class="numero">{{ proyectos|length }}</div><div>Proyectos</div></div></div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">Eventos y constancias</div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead><tr><th>Evento</th><th>Fecha</th><th>Estatus</th><th>Constancia</th></tr></thead>
+          <tbody>
+          {% for e in eventos %}
+            <tr>
+              <td><a href="{{ url_for('evento_detalle', id_evento=e.id_evento) }}">{{ e.titulo }}</a></td>
+              <td class="text-nowrap">{{ e.fecha|fecha }}</td>
+              <td>{{ badge_asistencia(e.estatus) }}</td>
+              <td>
+                {% if e.folio %}<a href="{{ url_for('constancia_ver', folio=e.folio) }}">{{ e.folio }}</a>{% else %}—{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card mb-3">
+      <div class="card-header">Datos de contacto</div>
+      <ul class="list-group list-group-flush small">
+        <li class="list-group-item"><i class="bi bi-envelope"></i> {{ miembro.correo }}</li>
+        <li class="list-group-item"><i class="bi bi-telephone"></i> {{ miembro.telefono or '—' }}</li>
+        <li class="list-group-item"><i class="bi bi-hash"></i> Matrícula {{ miembro.matricula }}</li>
+      </ul>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header">Proyectos</div>
+      <ul class="list-group list-group-flush">
+        {% for p in proyectos %}
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <span>{{ p.titulo }}<br><small class="text-muted">{{ p.funcion }}</small></span>{{ badge_proyecto(p.estado) }}
+          </li>
+        {% else %}
+          <li class="list-group-item text-muted small">Sin proyectos.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">Pagos</div>
+      <ul class="list-group list-group-flush small">
+        {% for p in pagos %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>{{ p.concepto }}<br><span class="text-muted">{{ p.fecha_pago|fecha }}</span></span>
+            <strong>{{ p.monto|dinero }}</strong>
+          </li>
+        {% else %}
+          <li class="list-group-item text-muted">Sin pagos.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
