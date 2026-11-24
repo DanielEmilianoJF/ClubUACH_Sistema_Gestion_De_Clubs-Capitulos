@@ -76,7 +76,7 @@ INSERT INTO evento (id_evento, titulo, descripcion, fecha, hora_inicio, hora_fin
 INSERT INTO evento (id_evento, titulo, descripcion, fecha, hora_inicio, hora_fin, lugar, cupo, id_tipo_evento, id_responsable) VALUES
  (3, 'Plática: Mi primer empleo en tecnología', 'Egresados comparten cómo consiguieron su primer trabajo.', DATE '2026-03-12', '12:00', '13:30', 'Auditorio de la Facultad de Ingeniería', 80, 2, 5);
 INSERT INTO evento (id_evento, titulo, descripcion, fecha, hora_inicio, hora_fin, lugar, cupo, id_tipo_evento, id_responsable) VALUES
- (4, 'Taller de SQL con Oracle', 'Consultas, JOINs y vistas sobre Oracle Database XE.', DATE '2026-04-09', '16:00', '18:30', 'Laboratorio de Cómputo 3', 25, 1, 1);
+ (4, 'Taller de SQL con Oracle', 'Consultas, JOINs y vistas sobre Oracle Database.', DATE '2026-04-09', '16:00', '18:30', 'Laboratorio de Cómputo 3', 25, 1, 1);
 INSERT INTO evento (id_evento, titulo, descripcion, fecha, hora_inicio, hora_fin, lugar, cupo, id_tipo_evento, id_responsable) VALUES
  (5, 'Hackathon ClubUACH 2026', '24 horas para construir una solución para el campus.', DATE '2026-05-15', '09:00', '21:00', 'Edificio de Posgrado, Facultad de Ingeniería', 60, 5, 3);
 INSERT INTO evento (id_evento, titulo, descripcion, fecha, hora_inicio, hora_fin, lugar, cupo, id_tipo_evento, id_responsable) VALUES

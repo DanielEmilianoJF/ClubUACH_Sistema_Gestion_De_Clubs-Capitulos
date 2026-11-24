@@ -1,8 +1,7 @@
 -- ClubUACH - 00_crear_usuario.sql
--- Crea el usuario (esquema) CLUBUACH dentro de la base XEPDB1.
+-- Crea el usuario (esquema) CLUBUACH dentro de la base FREEPDB1.
 --
--- EJECUTAR COMO: SYSTEM conectado a localhost:1521 / servicio XEPDB1
--- (en Oracle 23ai Free el servicio se llama FREEPDB1)
+-- EJECUTAR COMO: SYSTEM conectado a localhost:1521 / servicio FREEPDB1
 -- (en SQL Developer: abrir este archivo y presionar F5 "Ejecutar script")
 
 -- Si el usuario ya existe, lo borra junto con todos sus objetos.
@@ -28,5 +27,5 @@ GRANT CREATE SESSION,
 
 -- Listo. Ahora crea una conexión nueva en SQL Developer:
 --   Usuario: clubuach   Contraseña: ClubUach2026
---   Host: localhost   Puerto: 1521   Nombre del servicio: XEPDB1 (o FREEPDB1)
+--   Host: localhost   Puerto: 1521   Nombre del servicio: FREEPDB1
 -- y con esa conexión ejecuta 01, 02, 03 y 04 en orden.

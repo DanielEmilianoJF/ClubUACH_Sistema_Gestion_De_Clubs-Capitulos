@@ -21,7 +21,7 @@ Aplicación web que reemplaza las hojas de cálculo y los chats con los que un c
 
 ## Tecnologías
 
-- **Base de datos:** Oracle Database 23ai Free en Docker (también funciona con 21c XE), administrada con Oracle SQL Developer 26.2
+- **Base de datos:** Oracle Database 23ai Free en Docker, administrada con Oracle SQL Developer 26.2
 - **Backend:** Python 3 + Flask, acceso a datos con `python-oracledb` (modo *thin*, sin Instant Client)
 - **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5 y plantillas Jinja2, Chart.js para gráficas
 - **Herramientas:** Git y GitHub
@@ -49,11 +49,9 @@ clubuach/
 
 ## Instalación rápida
 
-**Requisitos:** Oracle Database XE 21c u Oracle Database 23ai Free (instalado o en Docker), Python 3.10 o superior. Probado en ambos.
+**Requisitos:** Oracle Database 23ai Free (en Docker), Python 3.10 o superior. El servicio de la base de datos se llama `FREEPDB1`.
 
-> En Oracle 23ai Free el servicio se llama `FREEPDB1` en lugar de `XEPDB1`: úsalo en SQL Developer y en `DB_DSN` del archivo `.env`.
-
-1. **Base de datos.** En SQL Developer, conectado como `SYSTEM` al servicio `FREEPDB1` (o `XEPDB1`), ejecuta `database/00_crear_usuario.sql` (F5). Luego conéctate como `clubuach` / `ClubUach2026` y ejecuta `01` a `04` en orden.
+1. **Base de datos.** En SQL Developer, conectado como `SYSTEM` al servicio `FREEPDB1`, ejecuta `database/00_crear_usuario.sql` (F5). Luego conéctate como `clubuach` / `ClubUach2026` y ejecuta `01` a `04` en orden.
 2. **Aplicación.**
    ```bash
    git clone <url-del-repositorio>
